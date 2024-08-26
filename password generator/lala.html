@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Password Generator</title>
+
+    </head>
+    <body>
+        <style>
+                    *{
+                color: rgb(200, 235, 235);
+                background-color: rgb(0, 0, 0);
+            }
+
+            h1{
+                display: inline-block;
+                animation: zoomInDown; 
+                animation-duration: 2s;
+            }
+
+            #length{
+                width: 35px;
+                background: #ffffff;
+                color: rgb(0, 0, 0);
+            }
+            fieldset{
+                display: flex;
+                flex-direction: column;
+            }
+
+            legend{
+                text-shadow: 5px 1px 6px rgb(40, 179, 28);
+                font-weight: 900;
+                font-size: xx-large;
+            }
+
+            #generatePassword{
+                cursor: pointer;
+                background-color: #fff;
+                color: black;
+            }
+        </style>
+
+
+        <h1>Password Generator</h1>
+    <fieldset>
+        <legend>
+<p>            <marquee behavior="slide" direction="left">Requirement for generating the password:</marquee></p>
+        </legend>
+        <label for="length">Length of Password:</label>
+        <input type="number" max="20" min="1" id="length">
+        <label for="lowercase">Lower Case Letter(a-z):</label>
+        <input type="checkbox" value="lowercase" id="includinglowercase">
+        <label for="upper">Upper Case Letters(A-Z):</label>
+        <input type="checkbox" value="upper" id="includinguppercase">
+        <label for="numbers">Numbers(0-9):</label>
+        <input type="checkbox" value="numbers" id="includingnumbers">
+        <label for="symbol">Symbol:</label>
+        <input type="checkbox" value="symbol" id="includingsymbol">
+
+    </fieldset>
+    <button id="generatePassword">Generate Password:</button>
+    <div id="generatedPassword"></div>
+    <button id="copyPassword"><i class="fa-regular fa-copy"></i></button>
+
+
+
+
+
+        <script>
+        const generatePassword = () => {
+        const passwordLength = document.getElementById("length").value;
+        const includeLowerCase = document.getElementById("includinglowercase").checked;
+        const includeUpperCase = document.getElementById("includinguppercase").checked;
+        const includeNumber = document.getElementById("includingnumbers").checked;
+        const includeSymbol = document.getElementById("includingsymbol").checked;
+    
+        const lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
+        const upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const numberChars = "0123456789";
+        const symbolChars = "!#$%&*-_+=?<>()@";
+    
+        let allowedChars = "";
+        let password = "";
+    
+        if (includeLowerCase===true) {
+            allowedChars += lowerCaseChars;
+        }
+        if (includeUpperCase) {
+            allowedChars += upperCaseChars;
+        }
+        if (includeNumber) {
+            allowedChars += numberChars;
+        }
+        if (includeSymbol) {
+            allowedChars += symbolChars;
+        }
+    
+        if (allowedChars === "") {
+            alert("Please select at least one set of characters.");
+            return;
+        }
+    
+        for (let i = 0; i < passwordLength; i++) {
+            const randomIndex = Math.floor(Math.random() * allowedChars.length);
+            password += allowedChars[randomIndex];
+        }
+    
+        document.getElementById("generatedPassword").innerText = ` ${password}`;
+    };
+    
+
+    document.getElementById("generatePassword").addEventListener("click", generatePassword);
+
+
+    
+    const copyPassword = () => {
+    const generatedPassword = document.getElementById("generatedPassword").innerText;
+
+    const textarea = document.createElement("textarea");
+    textarea.value = generatedPassword;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+};
+
+document.getElementById("copyPassword").addEventListener("click", copyPassword);
+
+</script>
+</body>
+</html>
